@@ -5,11 +5,21 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await axios.post("http://localhost:5000/api/auth/login", form);
-    alert("Login Successful!");
-    console.log(res.data);
-  };
+  e.preventDefault();
+  try {
+    const res = await login(formData);
+
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("email", formData.email);
+
+    alert("Login Successful");
+    window.location.href = "/dashboard";
+  } catch (err) {
+    alert("Login failed");
+    console.log(err);
+  }
+};
+
 
   return (
     <div className="container">
