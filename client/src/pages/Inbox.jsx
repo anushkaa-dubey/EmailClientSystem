@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
-import { fetchInbox } from "../api/email";
+import { getInbox } from "../api/email";
 
 export default function Inbox() {
   const [emails, setEmails] = useState([]);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
   useEffect(() => {
-    fetchInbox(user.email).then(setEmails);
+    const userEmail = localStorage.getItem("email");
+    getInbox(userEmail).then((data) => setEmails(data));
   }, []);
 
   return (
-    <div className="page">
-      <h2>Inbox</h2>
-
-      {emails.length === 0 && <p>No emails found.</p>}
-
-      {emails.map((mail) => (
-        <div className="email-card" key={mail._id}>
-          <h4>{mail.subject}</h4>
-          <p><b>From:</b> {mail.sender}</p>
-          <p>{mail.body}</p>
-        </div>
-      ))}
+    <div style={{ marginLeft: "220px", padding: "20px" }}>
+      <h1>Inbox</h1>
+      {emails.length === 0 ? (
+        <p>No emails found.</p>
+      ) : (
+        emails.map((e) => (
+          <div key={e._id} style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
+            <b>From:</b> {e.from} <br />
+            <b>Subject:</b> {e.subject} <br />
+            <p>{e.body}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }

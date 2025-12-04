@@ -1,9 +1,13 @@
-// client/src/api/auth.js
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+const API = "http://localhost:5000/api/auth";
 
-export const signup = (data) => API.post("/auth/signup", data);
-export const login = (data) => API.post("/auth/login", data);
+export const signup = async (email, password) => {
+  const res = await axios.post(`${API}/signup`, { email, password });
+  return res.data.message;
+};
+
+export const login = async (email, password) => {
+  const res = await axios.post(`${API}/login`, { email, password });
+  return res.data.message;
+};

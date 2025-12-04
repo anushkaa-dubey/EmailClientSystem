@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
-import { fetchSent } from "../api/email";
+import { getSent } from "../api/email";
 
 export default function Sent() {
   const [emails, setEmails] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    fetchSent(user.email).then(setEmails);
+    const userEmail = localStorage.getItem("email");
+    getSent(userEmail).then((data) => setEmails(data));
   }, []);
 
   return (
-    <div className="page">
-      <h2>Sent Emails</h2>
-
-      {emails.length === 0 && <p>No sent emails.</p>}
-
-      {emails.map((mail) => (
-        <div className="email-card" key={mail._id}>
-          <h4>{mail.subject}</h4>
-          <p><b>To:</b> {mail.recipient}</p>
-          <p>{mail.body}</p>
-        </div>
-      ))}
+    <div style={{ marginLeft: "220px", padding: "20px" }}>
+      <h1>Sent Emails</h1>
+      {emails.length === 0 ? (
+        <p>No sent emails.</p>
+      ) : (
+        emails.map((e) => (
+          <div key={e._id} style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
+            <b>To:</b> {e.to} <br />
+            <b>Subject:</b> {e.subject} <br />
+            <p>{e.body}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }

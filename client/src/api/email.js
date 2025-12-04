@@ -1,38 +1,12 @@
-const API = "http://localhost:5000/api";
+import axios from "axios";
 
-export const signup = async (data) => {
-  const res = await fetch(`${API}/auth/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
+const API = axios.create({
+  baseURL: "http://localhost:5000/api",
+});
 
-export const login = async (data) => {
-  const res = await fetch(`${API}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
+export const signup = (data) => API.post("/auth/signup", data);
+export const login = (data) => API.post("/auth/login", data);
 
-export const sendEmail = async (data) => {
-  const res = await fetch(`${API}/email/send`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
-
-export const fetchInbox = async (email) => {
-  const res = await fetch(`${API}/email/inbox?email=${email}`);
-  return res.json();
-};
-
-export const fetchSent = async (email) => {
-  const res = await fetch(`${API}/email/sent?email=${email}`);
-  return res.json();
-};
+export const sendEmail = (data) => API.post("/email/send", data);
+export const getInbox = (userId) => API.get(`/email/inbox/${userId}`);
+export const getSent = (userId) => API.get(`/email/sent/${userId}`);
