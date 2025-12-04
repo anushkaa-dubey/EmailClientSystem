@@ -1,31 +1,49 @@
+// client/src/pages/Signup.jsx
 import { useState } from "react";
-import axios from "axios";
+import { signup } from "../api/auth";
 
 export default function Signup() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/api/auth/signup", form);
-    alert("Signup Successful!");
-    console.log(res.data);
+
+    try {
+      const res = await signup({ email, password });
+      setMsg("Signup Successful");
+      console.log(res.data);
+    } catch (err) {
+      setMsg(err.response?.data?.error || "Signup failed");
+      console.log(err);
+    }
   };
 
   return (
-    <div className="container">
+    <div>
       <h2>Signup</h2>
+      
       <form onSubmit={handleSubmit}>
-        <input placeholder="Name"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <input placeholder="Email"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <input placeholder="Password" type="password"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        <button>Signup</button>
+
+        <button type="submit">Signup</button>
       </form>
+
+      {msg && <p>{msg}</p>}
     </div>
   );
 }

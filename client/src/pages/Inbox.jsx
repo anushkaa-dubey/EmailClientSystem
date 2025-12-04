@@ -4,36 +4,22 @@ import { fetchInbox } from "../api/email";
 export default function Inbox() {
   const [emails, setEmails] = useState([]);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
-    loadInbox();
+    fetchInbox(user.email).then(setEmails);
   }, []);
 
-  const loadInbox = async () => {
-    try {
-      const res = await fetchInbox();
-      setEmails(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="page">
       <h2>Inbox</h2>
 
       {emails.length === 0 && <p>No emails found.</p>}
 
       {emails.map((mail) => (
-        <div
-          key={mail._id}
-          style={{
-            borderBottom: "1px solid #ccc",
-            padding: "10px 0",
-            marginBottom: "10px",
-          }}
-        >
-          <strong>From:</strong> {mail.from} <br />
-          <strong>Subject:</strong> {mail.subject} <br />
+        <div className="email-card" key={mail._id}>
+          <h4>{mail.subject}</h4>
+          <p><b>From:</b> {mail.sender}</p>
           <p>{mail.body}</p>
         </div>
       ))}
