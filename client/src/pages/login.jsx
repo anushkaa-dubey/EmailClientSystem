@@ -1,28 +1,33 @@
 import { useState } from "react";
-import axios from "axios";
+import { login } from "../api/email";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const nav = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await axios.post("http://localhost:5000/api/auth/login", form);
-    alert("Login Successful!");
-    console.log(res.data);
+  const submit = async () => {
+    const res = await login({ email, password });
+
+    if (res.success) {
+      localStorage.setItem("user", JSON.stringify(res.user));
+      nav("/");
+    } else {
+      alert(res.message);
+    }
   };
 
   return (
-    <div className="container">
+    <div className="auth-page">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Email"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        <input placeholder="Password" type="password"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        <button>Login</button>
-      </form>
+
+      <input placeholder="email" onChange={e => setEmail(e.target.value)} />
+      <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} />
+
+      <button onClick={submit}>Login</button>
+
+      <p>Don't have an account? <Link to="/signup">Signup</Link></p>
     </div>
   );
 }

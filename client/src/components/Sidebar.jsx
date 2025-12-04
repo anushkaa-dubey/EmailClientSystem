@@ -1,19 +1,14 @@
-import { useState } from "react";
-import ComposePopup from "./ComposePopup";
+import { Link } from "react-router-dom";
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(false);
-
+export default function Sidebar({ openCompose }) {
   return (
     <div className="sidebar">
-      <button onClick={() => setOpen(true)}>Compose</button>
+      <button className="compose-btn" onClick={openCompose}>✉ Compose</button>
 
-      <a href="/inbox">Inbox</a>
-      <a href="/sent">Sent</a>
-      <button onClick={() => navigate("/inbox")}>Inbox</button>
-
-
-      {open && <ComposePopup onClose={() => setOpen(false)} />}
+      <ul>
+        <li><Link to="/">Inbox</Link></li>
+        <li><Link to="/sent">Sent</Link></li>
+      </ul>
     </div>
   );
 }
