@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default function Signup() {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   const handleSubmit = async (e) => {
@@ -32,6 +33,13 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+=======
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+>>>>>>> Stashed changes
     const res = await signup(email, password);
     alert(res);
   };
@@ -53,6 +61,9 @@ export default function Signup() {
         />
 
         <button type="submit">Create Account</button>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       </form>
     </div>

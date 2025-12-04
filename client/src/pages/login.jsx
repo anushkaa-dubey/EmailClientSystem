@@ -1,5 +1,6 @@
 import { useState } from "react";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import axios from "axios";
 
 export default function Login() {
@@ -10,6 +11,18 @@ export default function Login() {
     const res = await axios.post("http://localhost:5000/api/auth/login", form);
     alert("Login Successful!");
     console.log(res.data);
+=======
+import { login } from "../api/email";
+
+export default function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+>>>>>>> Stashed changes
 =======
 import { login } from "../api/email";
 
@@ -42,6 +55,7 @@ const handleSubmit = async (e) => {
 
   return (
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <div className="container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -55,6 +69,8 @@ const handleSubmit = async (e) => {
       </form>
     </div>
 =======
+=======
+>>>>>>> Stashed changes
     <form onSubmit={handleSubmit}>
       <h1>Login</h1>
 
@@ -76,6 +92,9 @@ const handleSubmit = async (e) => {
 
       <button type="submit">Login</button>
     </form>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   );
 }
